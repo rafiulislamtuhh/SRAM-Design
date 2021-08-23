@@ -1,0 +1,94 @@
+clear all; close all; clc;
+
+A= readtable('NMOSC.csv');
+
+B= A(: , contains(A.Properties.VariableNames, 'XWP1'));
+C=table2array(B);
+D=C(:,1:5:25);
+
+xln1= 1:2.25:10;
+xlp1= 1:4.75:20;
+xwp1= 1:1:5; 
+xwn1= 1:2.25:10;
+
+figure
+[XLP1,XLN1]=meshgrid(xlp1,xln1);
+surf(XLP1,XLN1,D)
+colormap jet
+colorbar
+xlabel('XLP')
+ylabel('XLN')
+zlabel('PMOSC')
+title('PMOS Current (XWP=1 and XWN=1)')
+
+E= A(: , contains(A.Properties.VariableNames, 'XLP5_75XWN1'));
+F=table2array(E);
+G=F(:,1:2:10);
+
+figure
+[XWP1,XLN1]=meshgrid(xwp1,xln1);
+surf(XWP1,XLN1,G)
+colormap jet
+colorbar
+xlabel('XWP')
+ylabel('XLN')
+zlabel('PMOSC')
+title('PMOS Current (XLP=5.75 and XWN=1)')
+
+H= A(: , contains(A.Properties.VariableNames, 'XWP1XLP5_75'));
+I=table2array(H);
+
+figure
+[XWN1,XLN1]=meshgrid(xwn1,xln1);
+surf(XWN1,XLN1,I)
+colormap jet
+colorbar
+xlabel('XWN')
+ylabel('XLN')
+zlabel('Current(A)')
+title('NMOS Leakage Current')
+
+J= A(: , contains(A.Properties.VariableNames, 'XWP1'));
+K= J(2,:);
+L=table2array(K);
+M=reshape(L,[5,5]);
+
+figure
+[XLP1,XWN2]=meshgrid(xlp1,xwn1);
+surf(XLP1,XWN2,M)
+colormap jet
+colorbar
+xlabel('XLP')
+ylabel('XWN')
+zlabel('PMOSC')
+title('PMOS Current (XLN=2 and XWP=1)')
+
+N= A(: , contains(A.Properties.VariableNames, 'XWN1'));
+O= N(2,1:2:50);
+P=table2array(O);
+Q=reshape(P,[5,5]);
+
+figure
+[XWP1,XLP2]=meshgrid(xwp1,xlp1);
+surf(XWP1,XLP2,Q)
+colormap jet
+colorbar
+xlabel('XWP')
+ylabel('XLP')
+zlabel('current(A)')
+title('PMOS Leakage Current')
+
+R= A(: , contains(A.Properties.VariableNames, 'XLP5_75'));
+S= R(2,:);
+T=table2array(S);
+U=reshape(T,[5,5]);
+
+figure
+[XWP1,XWN2]=meshgrid(xwp1,xwn1);
+surf(XWP1,XWN2,U)
+colormap jet
+colorbar
+xlabel('XWP')
+ylabel('XWN')
+zlabel('PMOSC')
+title('PMOS Current (XLN=2 and XLP=5.75)')

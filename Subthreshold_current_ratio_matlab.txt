@@ -1,0 +1,65 @@
+clear all; close all; clc;
+
+n1= 1.5;
+
+vth= 640;
+beff= 237.2;
+i=0:0.5:50;
+
+nx= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n1-1)
+ny=exp(-((vth-i)*0.037400654)./n1)
+ni= nx.*ny
+
+px= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n1-1)
+py=exp(-((vth+i)*0.037400654)./n1)
+pi= px.*py
+
+ratio= ni./pi
+
+plot(i,ratio,'LineWidth',2.0)
+grid on;
+
+n2= 1.6;
+
+nx= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+ny=exp(-((vth-i)*0.037400654)./n2)
+ni= nx.*ny
+
+px= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+py=exp(-((vth+i)*0.037400654)./n2)
+pi= px.*py
+
+ratio= ni./pi
+hold on
+plot(i,ratio,'LineWidth',2.0)
+
+n2= 1.7;
+
+nx= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+ny=exp(-((vth-i)*0.037400654)./n2)
+ni= nx.*ny
+
+px= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+py=exp(-((vth+i)*0.037400654)./n2)
+pi= px.*py
+
+ratio= ni./pi
+hold on
+plot(i,ratio,'LineWidth',2.0)
+
+n2= 1.8;
+
+nx= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+ny=exp(-((vth-i)*0.037400654)./n2)
+ni= nx.*ny
+
+px= beff*(10)^(-6)*(26.7375*(10)^(-3))^(2).*(n2-1)
+py=exp(-((vth+i)*0.037400654)./n2)
+pi= px.*py
+
+ratio= ni./pi
+hold on
+plot(i,ratio,'LineWidth',2.0)
+xlabel('Differences in Threshold Voltage/2 (mV)')
+ylabel('Ratio of Subthreshold Current')
+legend('n=1.5','n=1.6','n=1.7','n=1.8')

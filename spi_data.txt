@@ -1,0 +1,37 @@
+module spi_data(RST, SCLK,  CSEL, MISO, MOSI, DATA_IN_P,DATA_OUT_P);
+parameter BIT_COUNT = 8;
+input SCLK, RST;
+input CSEL;
+input MOSI;
+input [BIT_COUNT-1:0] DATA_IN_P;
+output [BIT_COUNT-1:0] DATA_OUT_P;
+reg [0:BIT_COUNT-1] in_buff;
+output MISO;
+
+reg [0:BIT_COUNT-1] shift_load_reg;
+reg [2:0] count;
+genvar i;
+always @(negedge RST or negedge CSEL) begin
+	if(!RST) shift_load_reg<=0;
+	else shift_load_reg<=DATA_IN_P;
+end
+
+always @(negedge SCLK or posedge CSEL or negedge RST) begin
+	if(CSEL==1||RST==0) count<=0;
+	else count<=count+1;
+end
+
+assign MISO = (CSEL)? 1'bz: shift_load_reg[count];
+
+always @(posedge SCLK or negedge RST) begin
+	if(!RST) in_buff<=0;
+	else begin
+		if(!CSEL) in_buff[count]<=MOSI;
+	end
+end
+
+for (i=0; i < BIT_COUNT; i=i+1) begin
+ assign DATA_OUT_P[BIT_COUNT-1-i]=in_buff[i];
+end
+
+endmodule

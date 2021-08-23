@@ -1,0 +1,37 @@
+module spi_address(RST, SCLK,  CSEL,MOSI,DATA_OUT_P);
+parameter BIT_COUNT = 8;
+input SCLK, RST;
+input CSEL;
+input MOSI;
+output [BIT_COUNT-1:0] DATA_OUT_P;
+reg [0:BIT_COUNT-1] in_buff;
+
+
+reg [2:0] count;
+reg capture_ATD;
+
+genvar i;
+always @(negedge SCLK or posedge CSEL or negedge RST) begin
+	if(CSEL==1||RST==0) begin
+	count<=0;
+	capture_ATD<=0;
+	end
+	else begin
+	count<=count+1;
+	capture_ATD<=(count==3'b111)? 1:0; // when all the data are valid from the serial MOSI,
+					//an enable signal is generated to capture all together by ATD
+	end
+end
+
+always @(posedge SCLK or negedge RST) begin
+	if(!RST) in_buff<=0;
+	else begin
+		if(!CSEL) in_buff[count]<=MOSI;
+	end
+end
+
+for (i=0; i < BIT_COUNT; i=i+1) begin
+ assign DATA_OUT_P[BIT_COUNT-1-i]= (capture_ATD==1) ? in_buff[i]:DATA_OUT_P[BIT_COUNT-1-i];
+end
+
+endmodule

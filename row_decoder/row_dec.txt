@@ -1,0 +1,25 @@
+module row_dec(ADDR, row); 
+   
+  input  [4:0] ADDR; 
+  output [31:0] row; 
+  wire   [7:0] x;
+  wire   [3:0] y;
+  
+row_3_to_8_dec x1(ADDR[4:2],x[7:0]);
+row_2_to_4_dec x2(ADDR[1:0],y[3:0]);
+
+genvar i,j,k;
+
+
+generate
+for(i=0;i<8;i=i+1) 
+
+begin
+assign row[4*i]=x[i]&y[0];
+assign row[(4*i)+1]=x[i]&y[1];
+assign row[(4*i)+2]=x[i]&y[2];
+assign row[(4*i)+3]=x[i]&y[3];
+
+end
+endgenerate
+endmodule 

@@ -1,0 +1,15 @@
+module row_2_to_4_dec( 
+   
+  input  [1:0] ADDR,
+  output reg [3:0] row); 
+  
+  always @(ADDR) 
+  begin 
+    case (ADDR) 
+      2'b00   : row <= 4'b0001; 
+      2'b01   : row <= 4'b0010; 
+      2'b10   : row <= 4'b0100; 
+      2'b11   : row <= 4'b1000; 
+    endcase 
+  end 
+endmodule 
